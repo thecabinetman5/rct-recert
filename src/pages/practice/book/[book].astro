@@ -1,0 +1,49 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { withBase } from '../../../lib/paths';
+import { books, chapterQuizSlug, questionCount, type Book } from '../../../lib/outline';
+
+export function getStaticPaths() {
+  return books.map((b) => ({ params: { book: b.id }, props: { book: b } }));
+}
+
+const { book } = Astro.props as { book: Book };
+---
+
+<Base title={`${book.title} practice`} description={`Pick a chapter of ${book.title} to practice.`}>
+  <p style="margin-bottom:0.5rem;">
+    <a href={withBase('/practice')}>&larr; All practice tests</a>
+  </p>
+  <h1>{book.title}</h1>
+  <p class="lede">Pick a chapter to practice. Open <em>Objectives</em> to drill one objective at a time.</p>
+
+  <ol class="chapter-list practice-rows">
+    {
+      book.chapters.map((c) => {
+        const slug = chapterQuizSlug(book, c);
+        const n = questionCount(book, c);
+        return (
+          <li>
+            <div class="chapter-row">
+              <span class="chapter-num">{c.id}</span>
+              <span class="chapter-name">{c.title}</span>
+              <span class="chapter-meta">{n} q</span>
+              <span class="row-actions">
+                {slug ? (
+                  <a class="btn" data-prog-test={slug} href={withBase(`/practice/${slug}`)}>
+                    Practice
+                  </a>
+                ) : (
+                  <span class="chapter-meta">no questions</span>
+                )}
+                <a class="btn secondary" href={withBase(`/chapters/${book.id}/${c.id}`)}>
+                  Objectives
+                </a>
+              </span>
+            </div>
+          </li>
+        );
+      })
+    }
+  </ol>
+</Base>

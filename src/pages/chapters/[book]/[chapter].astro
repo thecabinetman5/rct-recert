@@ -1,0 +1,143 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { withBase } from '../../../lib/paths';
+import {
+  books,
+  rich,
+  countsByObjective,
+  chapterQuizSlug,
+  objectiveQuizSlug,
+  questionCount,
+  type Book,
+  type Chapter,
+} from '../../../lib/outline';
+
+export function getStaticPaths() {
+  return books.flatMap((b) =>
+    b.chapters.map((c, i) => ({
+      params: { book: b.id, chapter: c.id },
+      props: { book: b, chapter: c, prev: b.chapters[i - 1] ?? null, next: b.chapters[i + 1] ?? null },
+    })),
+  );
+}
+
+const { book, chapter, prev, next } = Astro.props as {
+  book: Book;
+  chapter: Chapter;
+  prev: Chapter | null;
+  next: Chapter | null;
+};
+
+const counts = countsByObjective(book, chapter);
+const total = questionCount(book, chapter);
+const quizSlug = chapterQuizSlug(book, chapter);
+// A chapter whose objective wording hasn't been entered yet: list the objective ids the questions use.
+const objectives =
+  chapter.objectives.length > 0
+    ? chapter.objectives
+    : Object.keys(counts)
+        .sort()
+        .map((id) => ({ id, text: '', items: undefined }));
+const hasWording = chapter.objectives.length > 0;
+---
+
+<Base title={`${chapter.id} ${chapter.title}`} description={`Learning objectives and sections for ${chapter.title}.`}>
+  <p style="margin-bottom:0.5rem;">
+    <a href={withBase('/chapters')}>&larr; All chapters</a>
+  </p>
+  <p class="q-cat" style="margin-bottom:0;">{book.title}</p>
+  <h1>{chapter.id} &ndash; {chapter.title}</h1>
+  <p class="lede">
+    {objectives.length} learning objective{objectives.length === 1 ? '' : 's'} &middot; {total} practice question{total === 1 ? '' : 's'}
+  </p>
+
+  {
+    quizSlug && (
+      <p>
+        <a class="btn" data-prog-test={quizSlug} href={withBase(`/practice/${quizSlug}`)}>Practice this chapter</a>
+      </p>
+    )
+  }
+
+  <h2>Learning objectives</h2>
+  {
+    !hasWording && (
+      <p class="section-note">
+        The wording of this chapter's objectives has not been added yet. The numbers below
+        are the objectives its practice questions are filed under.
+      </p>
+    )
+  }
+  <ol class="objectives">
+    {
+      objectives.map((o) => (
+        <li id={`o-${o.id}`}>
+          <div class="obj-head">
+            <span class="obj-id">{o.id}</span>
+            <span class="obj-text" set:html={rich(o.text)} />
+            {(counts[o.id] ?? 0) > 0 ? (
+              <a
+                class="obj-practice"
+                data-prog-test={objectiveQuizSlug(o.id)}
+                href={withBase(`/practice/${objectiveQuizSlug(o.id)}`)}
+                title={`Practice the ${counts[o.id]} questions filed under objective ${o.id}`}
+              >
+                Practice · {counts[o.id]} q
+              </a>
+            ) : (
+              <span class="obj-count" title="No practice questions for this objective yet">0 q</span>
+            )}
+          </div>
+          {o.items && (
+            <ul class="obj-items">
+              {o.items.map((it) => (
+                <li set:html={rich(it)} />
+              ))}
+            </ul>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+
+  {
+    chapter.sections && chapter.sections.length > 0 && (
+      <>
+        <h2>Sections</h2>
+        <ol class="sections">
+          {chapter.sections.map((s) => (
+            <li>
+              <span class="sec-num">{s.num}</span> {s.title}
+              {s.subs && (
+                <ul>
+                  {s.subs.map((u) => (
+                    <li>
+                      <span class="sec-num">{u.num}</span> {u.title}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ol>
+      </>
+    )
+  }
+
+  <nav class="chapter-pager" aria-label="Chapter navigation">
+    {
+      prev ? (
+        <a href={withBase(`/chapters/${book.id}/${prev.id}`)}>&larr; {prev.id} {prev.title}</a>
+      ) : (
+        <span />
+      )
+    }
+    {
+      next ? (
+        <a href={withBase(`/chapters/${book.id}/${next.id}`)}>{next.id} {next.title} &rarr;</a>
+      ) : (
+        <span />
+      )
+    }
+  </nav>
+</Base>

@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import { withBase } from '../../lib/paths';
+import { books, questionCount } from '../../lib/outline';
+---
+
+<Base
+  title="Chapters &amp; Objectives"
+  description="Every study-guide chapter with its learning objectives and sections, linked to practice tests."
+>
+  <h1>Chapters &amp; objectives</h1>
+  <p class="lede">
+    The study guides are organized into chapters (modules). Each chapter has a list
+    of learning objectives and the sections that cover them. Open a chapter to see
+    them, and to practice just that chapter.
+  </p>
+
+  {
+    books.map((b) => (
+      <section>
+        <h2 class="group-title">{b.title}</h2>
+        <p class="section-note">{b.blurb}</p>
+        <ol class="chapter-list">
+          {b.chapters.map((c) => (
+            <li>
+              <a href={withBase(`/chapters/${b.id}/${c.id}`)}>
+                <span class="chapter-num">{c.id}</span>
+                <span class="chapter-name">{c.title}</span>
+                <span class="chapter-meta">
+                  {c.objectives.length > 0 ? `${c.objectives.length} objectives · ` : ''}
+                  {questionCount(b, c)} questions
+                </span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))
+  }
+</Base>

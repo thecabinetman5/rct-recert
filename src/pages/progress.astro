@@ -1,0 +1,102 @@
+---
+import Base from '../layouts/Base.astro';
+import { withBase } from '../lib/paths';
+import { books, plain, objectiveQuizSlug } from '../lib/outline';
+import questions from '../data/questions.json';
+
+// Everything the page needs to draw progress, resolved at build time.
+const chapters = books.flatMap((b) =>
+  b.chapters.map((c) => ({
+    cat: `${c.id} ${c.title}`,
+    id: c.id,
+    title: c.title,
+    book: b.id,
+    bank: b.bank,
+    total: questions.filter((q) => q.bank === b.bank && q.category.startsWith(c.id + ' ')).length,
+    objectives: c.objectives.map((o) => ({ id: o.id, text: plain(o.text), slug: objectiveQuizSlug(o.id) })),
+  })),
+);
+const data = { chapters };
+---
+
+<Base title="My Progress" description="Your practice results on this device: weakest chapters first, objectives to revisit, and chapters you haven't tried.">
+  <h1>My progress</h1>
+  <p class="lede">
+    Results are saved on this device only &mdash; nothing is sent anywhere and it won&rsquo;t appear on
+    your other devices.
+  </p>
+
+  <div id="progress-root">
+    <p class="section-note">Loading&hellip;</p>
+  </div>
+
+  <script type="application/json" id="progress-data" set:html={JSON.stringify(data)} />
+
+  <script>
+    import { load, chapterStats, objectiveStats, reset } from '../scripts/progress';
+
+    interface Obj { id: string; text: string; slug: string }
+    interface Ch { cat: string; id: string; title: string; book: string; bank: string; total: number; objectives: Obj[] }
+    const base = (document.querySelector('meta[name="site-base"]') as HTMLMetaElement).content;
+    const { chapters } = JSON.parse(document.getElementById('progress-data')!.textContent!) as { chapters: Ch[] };
+    const root = document.getElementById('progress-root')!;
+    const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const link = (c: Ch) => `${base}chapters/${c.book}/${c.id}`;
+
+    function draw(): void {
+      const p = load();
+      const cs = chapterStats(p);
+      const os = objectiveStats(p);
+      const answered = Object.keys(p.q).length;
+
+      if (answered === 0) {
+        root.innerHTML = `<div class="callout"><strong>No results yet.</strong> Take a practice test and your results will show up here.</div>
+          <p><a class="btn" href="${base}practice">Start a practice test</a></p>`;
+        return;
+      }
+
+      const tried = chapters.filter((c) => cs[c.cat]);
+      const untried = chapters.filter((c) => !cs[c.cat] && c.total > 0);
+      tried.sort((a, b) => cs[a.cat].pct - cs[b.cat].pct);
+
+      const rowTried = (c: Ch) => {
+        const s = cs[c.cat];
+        const cls = s.pct >= 80 ? 'good' : 'low';
+        return `<li class="prog-row"><a href="${link(c)}"><span class="chapter-num">${c.id}</span> ${esc(c.title)}</a>
+          <span class="prog-meter" role="img" aria-label="${s.pct}% correct"><span class="${cls}" style="width:${s.pct}%"></span></span>
+          <span class="prog-num">${s.pct}% <small>(${s.correct}/${s.seen} answered &middot; ${c.total} in chapter)</small></span></li>`;
+      };
+
+      const weakObjs: string[] = [];
+      for (const c of chapters) {
+        for (const o of c.objectives) {
+          const s = os[o.id];
+          if (s && s.pct < 80) {
+            weakObjs.push(`<li class="prog-row"><span><span class="obj-id">${o.id}</span> ${esc(o.text)}</span>
+              <span class="prog-num">${s.pct}% <small>(${s.correct}/${s.seen})</small></span>
+              <a class="obj-practice" href="${base}practice/${o.slug}">Practice</a></li>`);
+          }
+        }
+      }
+
+      root.innerHTML = `
+        <p>${answered} question${answered === 1 ? '' : 's'} answered so far.</p>
+        <h2>Chapters, weakest first</h2>
+        <ul class="prog-list">${tried.map(rowTried).join('')}</ul>
+        <h2>Objectives to revisit <small class="section-note">(below 80%)</small></h2>
+        ${weakObjs.length ? `<ul class="prog-list">${weakObjs.join('')}</ul>` : '<p class="section-note">None — every objective you have tried is at 80% or better.</p>'}
+        <h2>Not tried yet</h2>
+        ${untried.length ? `<ul class="prog-list">${untried.map((c) => `<li class="prog-row"><a href="${link(c)}"><span class="chapter-num">${c.id}</span> ${esc(c.title)}</a><span class="prog-num"><small>${c.total} questions</small></span></li>`).join('')}</ul>` : '<p class="section-note">You have tried every chapter.</p>'}
+        <h2>Reset</h2>
+        <p class="section-note">Clears all saved results on this device. This can&rsquo;t be undone.</p>
+        <p><button class="btn secondary" id="reset-btn" type="button">Reset my progress</button> <span id="reset-confirm" hidden>Really erase everything? <button class="btn" id="reset-yes" type="button">Yes, erase</button> <button class="btn secondary" id="reset-no" type="button">Cancel</button></span></p>`;
+
+      const rb = document.getElementById('reset-btn')!;
+      const rc = document.getElementById('reset-confirm')!;
+      rb.addEventListener('click', () => { rb.hidden = true; rc.hidden = false; });
+      document.getElementById('reset-no')!.addEventListener('click', () => { rc.hidden = true; rb.hidden = false; });
+      document.getElementById('reset-yes')!.addEventListener('click', () => { reset(); draw(); });
+    }
+    draw();
+  </script>
+</Base>

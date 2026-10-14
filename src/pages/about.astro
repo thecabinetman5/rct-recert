@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import questions from '../data/questions.json';
+import { withBase } from '../lib/paths';
+
+const byCategory = [...new Set(questions.map((q) => q.category))]
+  .map((c) => ({ c, n: questions.filter((q) => q.category === c).length }))
+  .sort((a, b) => a.c.localeCompare(b.c));
+---
+
+<Base title="About" description="What this site is, where the content comes from, and how to use it.">
+  <h1>About this site</h1>
+  <p class="lede">
+    A free, no-login study aid for the Hanford Radiological Control Technician
+    (RCT) recertification exam.
+  </p>
+
+  <h2>How it works</h2>
+  <ul>
+    <li>Browse the <a href={withBase('/chapters')}>chapters and learning objectives</a> to see what each module covers.</li>
+    <li>Pick a test: a full exam for a book, one chapter, or a single objective. Questions are drawn at random.</li>
+    <li>Answer at your own pace. Press <strong>Check answer</strong> to see right away whether you were correct.</li>
+    <li>Press <strong>Submit</strong> any time. If you stop early, only the questions you answered are scored.</li>
+    <li>Review every answer, then retake the questions you missed or take a fresh draw.</li>
+  </ul>
+
+  <h2>What it is</h2>
+  <p>
+    Two things: downloadable study guides (PDFs) and browser-based practice
+    tests that score you and explain every answer. It is a static website &mdash;
+    there is no server, no account, and no tracking. Your results are saved only in this
+    browser on this device (see <a href={withBase('/progress')}>My progress</a>) and are never sent anywhere.
+  </p>
+
+  <h2>What it is not</h2>
+  <p>
+    This site is <strong>unofficial</strong>. It is not affiliated with, endorsed
+    by, or maintained by the U.S. Department of Energy, Hanford Mission
+    Integration Solutions, or any other site contractor. The practice questions
+    are written for study and may not match the wording, weighting, or scope of
+    the real exam. Always defer to your current site procedures and official
+    reference material (10 CFR 835, DOE-STD-1098, DOE-HDBK-1122, and your
+    facility's RWPs and RPPs).
+  </p>
+
+  <h2>Question bank</h2>
+  <p>Current coverage:</p>
+  <table class="downloads">
+    <thead>
+      <tr><th>Topic area</th><th>Questions</th></tr>
+    </thead>
+    <tbody>
+      {byCategory.map((row) => (
+        <tr>
+          <td>{row.c}</td>
+          <td>{row.n}</td>
+        </tr>
+      ))}
+      <tr>
+        <td><strong>Total</strong></td>
+        <td><strong>{questions.length}</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Corrections</h2>
+  <p>
+    Found a wrong answer or an outdated reference? The content lives in
+    <code>src/data/questions.json</code>. Fixes are welcome via whatever channel
+    the site owner has set up (repo issue or pull request).
+  </p>
+</Base>

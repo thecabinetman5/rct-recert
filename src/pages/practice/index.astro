@@ -1,0 +1,50 @@
+---
+import Base from '../../layouts/Base.astro';
+import { withBase } from '../../lib/paths';
+import quizzes from '../../data/quizzes.json';
+import { books } from '../../lib/outline';
+import questions from '../../data/questions.json';
+
+const cards = books.map((b) => ({
+  book: b,
+  exam: quizzes.find((q) => q.slug === `${b.id}-full-exam`),
+  count: questions.filter((q) => q.bank === b.bank).length,
+}));
+---
+
+<Base
+  title="Practice Tests"
+  description="Choose a book, then practice a full exam, a whole chapter, or a single objective."
+>
+  <h1>Practice tests</h1>
+  <p class="lede">Pick a book. You can take a full exam, practice one chapter, or drill a single objective.</p>
+
+  <ul class="card-grid">
+    {
+      cards.map(({ book, exam, count }) => (
+        <li class="card">
+          <h3>{book.title}</h3>
+          <p>{book.blurb}</p>
+          <span class="meta">
+            {book.chapters.length} chapters &middot; {count} questions
+          </span>
+          <div class="card-actions">
+            {exam && (
+              <a class="btn" href={withBase(`/practice/${exam.slug}`)}>
+                Full exam ({exam.length} q)
+              </a>
+            )}
+            <a class="btn secondary" href={withBase(`/practice/book/${book.id}`)}>
+              Choose a chapter
+            </a>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="section-note">
+    Want to drill a specific objective? Open a chapter and use the <strong>Practice</strong> button
+    next to the objective.
+  </p>
+</Base>

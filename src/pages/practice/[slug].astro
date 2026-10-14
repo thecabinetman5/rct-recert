@@ -1,0 +1,83 @@
+---
+import Base from '../../layouts/Base.astro';
+import { withBase } from '../../lib/paths';
+import quizzes from '../../data/quizzes.json';
+import questions from '../../data/questions.json';
+import type { Question, QuizDef } from '../../lib/quiz';
+import { objectiveTexts, books, categoryOf, objectiveQuizzes } from '../../lib/outline';
+
+export function getStaticPaths() {
+  return [...quizzes, ...objectiveQuizzes()].map((q) => ({ params: { slug: q.slug }, props: { quiz: q } }));
+}
+
+const { quiz } = Astro.props as { quiz: QuizDef };
+
+const pool: Question[] = (
+  quiz.categories === '*'
+    ? questions
+    : questions.filter((q) => (quiz.categories as string[]).includes(q.category))
+).filter((q: any) => !quiz.objective || q.reference === `Objective ${quiz.objective}`) as Question[];
+
+// Payload for the client engine. The pool is shipped whole; sampling and
+// shuffling happen in the browser so every attempt is a fresh draw.
+const payload = { quiz, pool, objectives: objectiveTexts() };
+
+// If this test covers exactly one chapter, link to that chapter's objectives.
+let chapterLink: string | null = null;
+if (Array.isArray(quiz.categories) && quiz.categories.length === 1) {
+  for (const b of books) {
+    for (const c of b.chapters) {
+      if (categoryOf(b, c) === quiz.categories[0]) chapterLink = `/chapters/${b.id}/${c.id}`;
+    }
+  }
+}
+---
+
+<Base title={quiz.title} description={quiz.description}>
+  <p style="margin-bottom:0.5rem;">
+    <a href={withBase('/practice')}>&larr; All practice tests</a>
+  </p>
+  <h1>{quiz.objective ? `Objective ${quiz.objective}` : quiz.title}</h1>
+  <p class="lede">{quiz.description}</p>
+  {chapterLink && <p><a href={withBase(chapterLink)}>See this chapter&rsquo;s objectives and sections &rarr;</a></p>}
+
+  <div id="quiz-root" data-passpercent={quiz.passPercent}>
+    <div class="quiz" id="quiz-start">
+      <p>
+        This attempt will serve{' '}
+        <strong>
+          {Math.min(quiz.length, pool.length)}{' '}
+          question{Math.min(quiz.length, pool.length) === 1 ? '' : 's'}
+        </strong>{' '}
+        drawn at random{quiz.categories === '*'
+          ? ' from the full bank'
+          : ' from the topics this test covers'}.
+        {quiz.timeLimitMinutes && (
+          <>
+            {' '}Suggested time: <strong>{quiz.timeLimitMinutes} minutes</strong>{' '}
+            (a timer is shown but nothing auto-submits).
+          </>
+        )}
+      </p>
+      <p>Passing score: <strong>{quiz.passPercent}%</strong>.</p>
+      <button class="btn" id="btn-begin" type="button">Begin test</button>
+    </div>
+  </div>
+
+  <noscript>
+    <div class="callout">
+      <strong>JavaScript is required</strong> to take the practice tests. The
+      study-guide PDFs work without it.
+    </div>
+  </noscript>
+
+  <script type="application/json" id="quiz-data" set:html={JSON.stringify(payload)} />
+
+  <script>
+    import { runQuiz } from '../../scripts/quiz-runner';
+    const el = document.getElementById('quiz-data');
+    if (el && el.textContent) {
+      runQuiz(JSON.parse(el.textContent));
+    }
+  </script>
+</Base>

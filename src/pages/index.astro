@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import { withBase } from '../lib/paths';
+import quizzes from '../data/quizzes.json';
+import questions from '../data/questions.json';
+import { books } from '../lib/outline';
+
+const cards = books.map((b) => ({
+  book: b,
+  exam: quizzes.find((q) => q.slug === `${b.id}-full-exam`),
+  count: questions.filter((q) => q.bank === b.bank).length,
+}));
+---
+
+<Base
+  title="Hanford RCT Recert Prep"
+  description="Free practice tests and a downloadable study guide for the Hanford Radiological Control Technician (RCT) recertification exam."
+>
+  <h1>Prepare for the Hanford RCT recert exam</h1>
+  <p class="lede">
+    Practice tests with instant feedback, organized by chapter and learning
+    objective. Free, no sign-up, works on your phone.
+  </p>
+
+  <div id="continue" class="continue" hidden></div>
+
+  <ul class="card-grid">
+    {
+      cards.map(({ book, exam, count }) => (
+        <li class="card">
+          <h3>{book.title}</h3>
+          <p>{book.blurb}</p>
+          <span class="meta">
+            {book.chapters.length} chapters &middot; {count} questions
+          </span>
+          <div class="card-actions">
+            {exam && (
+              <a class="btn" href={withBase(`/practice/${exam.slug}`)}>
+                Full exam ({exam.length} q)
+              </a>
+            )}
+            <a class="btn secondary" href={withBase(`/practice/book/${book.id}`)}>
+              Choose a chapter
+            </a>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="home-links">
+    <a href={withBase('/study-guides')}>Download the study guide</a> &middot;
+    <a href={withBase('/chapters')}>Browse chapters &amp; objectives</a>
+  </p>
+</Base>

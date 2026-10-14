@@ -1,0 +1,440 @@
+[
+  {
+    "slug": "fund-full-exam",
+    "group": "Fundamentals",
+    "title": "Fundamentals — Full Practice Exam",
+    "description": "A random mix of questions from every Fundamentals module.",
+    "categories": [
+      "1.01 Basic Mathematics and Algebra",
+      "1.02 Unit Analysis and Conversion",
+      "1.03 Physical Sciences",
+      "1.04 Nuclear Physics",
+      "1.05 Sources of Radiation",
+      "1.06 Radioactivity and Radioactive Decay",
+      "1.07 Interaction of Radiation with Matter",
+      "1.08 Biological Effects of Radiation",
+      "1.09 Radiation Protection Standards",
+      "1.10 ALARA",
+      "1.11 External Exposure Control",
+      "1.12 Internal Exposure Control",
+      "1.13 Radiation Detector Theory"
+    ],
+    "length": 50,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "fund-1-01-basic-mathematics-and-algebra",
+    "group": "Fundamentals",
+    "title": "1.01 Basic Mathematics and Algebra",
+    "description": "85 questions in this module.",
+    "categories": [
+      "1.01 Basic Mathematics and Algebra"
+    ],
+    "length": 20,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "fund-1-02-unit-analysis-and-conversion",
+    "group": "Fundamentals",
+    "title": "1.02 Unit Analysis and Conversion",
+    "description": "9 questions in this module.",
+    "categories": [
+      "1.02 Unit Analysis and Conversion"
+    ],
+    "length": 9,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "fund-1-03-physical-sciences",
+    "group": "Fundamentals",
+    "title": "1.03 Physical Sciences",
+    "description": "51 questions in this module.",
+    "categories": [
+      "1.03 Physical Sciences"
+    ],
+    "length": 20,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "fund-1-04-nuclear-physics",
+    "group": "Fundamentals",
+    "title": "1.04 Nuclear Physics",
+    "description": "22 questions in this module.",
+    "categories": [
+      "1.04 Nuclear Physics"
+    ],
+    "length": 20,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "fund-1-05-sources-of-radiation",
+    "group": "Fundamentals",
+    "title": "1.05 Sources of Radiation",
+    "description": "22 questions in this module.",
+    "categories": [
+      "1.05 Sources of Radiation"
+    ],
+    "length": 20,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "fund-1-06-radioactivity-and-radioactive-decay",
+    "group": "Fundamentals",
+    "title": "1.06 Radioactivity and Radioactive Decay",
+    "description": "61 questions in this module.",
+    "categories": [
+      "1.06 Radioactivity and Radioactive Decay"
+    ],
+    "length": 20,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "fund-1-07-interaction-of-radiation-with-matter",
+    "group": "Fundamentals",
+    "title": "1.07 Interaction of Radiation with Matter",
+    "description": "30 questions in this module.",
+    "categories": [
+      "1.07 Interaction of Radiation with Matter"
+    ],
+    "length": 20,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "fund-1-08-biological-effects-of-radiation",
+    "group": "Fundamentals",
+    "title": "1.08 Biological Effects of Radiation",
+    "description": "48 questions in this module.",
+    "categories": [
+      "1.08 Biological Effects of Radiation"
+    ],
+    "length": 20,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "fund-1-09-radiation-protection-standards",
+    "group": "Fundamentals",
+    "title": "1.09 Radiation Protection Standards",
+    "description": "9 questions in this module.",
+    "categories": [
+      "1.09 Radiation Protection Standards"
+    ],
+    "length": 9,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "fund-1-10-alara",
+    "group": "Fundamentals",
+    "title": "1.10 ALARA",
+    "description": "12 questions in this module.",
+    "categories": [
+      "1.10 ALARA"
+    ],
+    "length": 12,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "fund-1-11-external-exposure-control",
+    "group": "Fundamentals",
+    "title": "1.11 External Exposure Control",
+    "description": "30 questions in this module.",
+    "categories": [
+      "1.11 External Exposure Control"
+    ],
+    "length": 20,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "fund-1-12-internal-exposure-control",
+    "group": "Fundamentals",
+    "title": "1.12 Internal Exposure Control",
+    "description": "17 questions in this module.",
+    "categories": [
+      "1.12 Internal Exposure Control"
+    ],
+    "length": 17,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "fund-1-13-radiation-detector-theory",
+    "group": "Fundamentals",
+    "title": "1.13 Radiation Detector Theory",
+    "description": "44 questions in this module.",
+    "categories": [
+      "1.13 Radiation Detector Theory"
+    ],
+    "length": 20,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "site-full-exam",
+    "group": "Site Academics",
+    "title": "Site Academics — Full Practice Exam",
+    "description": "A random mix of questions from every Site Academics module.",
+    "categories": [
+      "2.01 Radiological Documentation",
+      "2.02 Communication Systems",
+      "2.03 Counting Errors and Statistics",
+      "2.04 Dosimetry",
+      "2.05 Contamination Control",
+      "2.06 Airborne Sampling Program and Methods",
+      "2.07 Respiratory Protection",
+      "2.08 Radioactive Source Control",
+      "2.09 Environmental Monitoring",
+      "2.10 Access Control and Work Area Setup",
+      "2.11 Radiological Work Coverage",
+      "2.12 Shipment and Receipt of Radioactive Material",
+      "2.13 Radiological Incidents and Emergencies",
+      "2.14 Personnel Decontamination",
+      "2.15 Radiological Considerations for First Aid",
+      "2.16 Radiation Survey Instrumentation",
+      "2.17 Contamination Monitoring Instrumentation",
+      "2.18 Air Sampling Equipment",
+      "2.19 Counting Room Equipment"
+    ],
+    "length": 50,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "site-2-01-radiological-documentation",
+    "group": "Site Academics",
+    "title": "2.01 Radiological Documentation",
+    "description": "20 questions in this module.",
+    "categories": [
+      "2.01 Radiological Documentation"
+    ],
+    "length": 20,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "site-2-02-communication-systems",
+    "group": "Site Academics",
+    "title": "2.02 Communication Systems",
+    "description": "9 questions in this module.",
+    "categories": [
+      "2.02 Communication Systems"
+    ],
+    "length": 9,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "site-2-03-counting-errors-and-statistics",
+    "group": "Site Academics",
+    "title": "2.03 Counting Errors and Statistics",
+    "description": "44 questions in this module.",
+    "categories": [
+      "2.03 Counting Errors and Statistics"
+    ],
+    "length": 20,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "site-2-04-dosimetry",
+    "group": "Site Academics",
+    "title": "2.04 Dosimetry",
+    "description": "50 questions in this module.",
+    "categories": [
+      "2.04 Dosimetry"
+    ],
+    "length": 20,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "site-2-05-contamination-control",
+    "group": "Site Academics",
+    "title": "2.05 Contamination Control",
+    "description": "25 questions in this module.",
+    "categories": [
+      "2.05 Contamination Control"
+    ],
+    "length": 20,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "site-2-06-airborne-sampling-program-and-methods",
+    "group": "Site Academics",
+    "title": "2.06 Airborne Sampling Program and Methods",
+    "description": "46 questions in this module.",
+    "categories": [
+      "2.06 Airborne Sampling Program and Methods"
+    ],
+    "length": 20,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "site-2-07-respiratory-protection",
+    "group": "Site Academics",
+    "title": "2.07 Respiratory Protection",
+    "description": "11 questions in this module.",
+    "categories": [
+      "2.07 Respiratory Protection"
+    ],
+    "length": 11,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "site-2-08-radioactive-source-control",
+    "group": "Site Academics",
+    "title": "2.08 Radioactive Source Control",
+    "description": "15 questions in this module.",
+    "categories": [
+      "2.08 Radioactive Source Control"
+    ],
+    "length": 15,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "site-2-09-environmental-monitoring",
+    "group": "Site Academics",
+    "title": "2.09 Environmental Monitoring",
+    "description": "7 questions in this module.",
+    "categories": [
+      "2.09 Environmental Monitoring"
+    ],
+    "length": 7,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "site-2-10-access-control-and-work-area-setup",
+    "group": "Site Academics",
+    "title": "2.10 Access Control and Work Area Setup",
+    "description": "33 questions in this module.",
+    "categories": [
+      "2.10 Access Control and Work Area Setup"
+    ],
+    "length": 20,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "site-2-11-radiological-work-coverage",
+    "group": "Site Academics",
+    "title": "2.11 Radiological Work Coverage",
+    "description": "20 questions in this module.",
+    "categories": [
+      "2.11 Radiological Work Coverage"
+    ],
+    "length": 20,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "site-2-12-shipment-and-receipt-of-radioactive-material",
+    "group": "Site Academics",
+    "title": "2.12 Shipment and Receipt of Radioactive Material",
+    "description": "44 questions in this module.",
+    "categories": [
+      "2.12 Shipment and Receipt of Radioactive Material"
+    ],
+    "length": 20,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "site-2-13-radiological-incidents-and-emergencies",
+    "group": "Site Academics",
+    "title": "2.13 Radiological Incidents and Emergencies",
+    "description": "12 questions in this module.",
+    "categories": [
+      "2.13 Radiological Incidents and Emergencies"
+    ],
+    "length": 12,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "site-2-14-personnel-decontamination",
+    "group": "Site Academics",
+    "title": "2.14 Personnel Decontamination",
+    "description": "12 questions in this module.",
+    "categories": [
+      "2.14 Personnel Decontamination"
+    ],
+    "length": 12,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "site-2-15-radiological-considerations-for-first-aid",
+    "group": "Site Academics",
+    "title": "2.15 Radiological Considerations for First Aid",
+    "description": "6 questions in this module.",
+    "categories": [
+      "2.15 Radiological Considerations for First Aid"
+    ],
+    "length": 6,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "site-2-16-radiation-survey-instrumentation",
+    "group": "Site Academics",
+    "title": "2.16 Radiation Survey Instrumentation",
+    "description": "50 questions in this module.",
+    "categories": [
+      "2.16 Radiation Survey Instrumentation"
+    ],
+    "length": 20,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "site-2-17-contamination-monitoring-instrumentation",
+    "group": "Site Academics",
+    "title": "2.17 Contamination Monitoring Instrumentation",
+    "description": "44 questions in this module.",
+    "categories": [
+      "2.17 Contamination Monitoring Instrumentation"
+    ],
+    "length": 20,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "site-2-18-air-sampling-equipment",
+    "group": "Site Academics",
+    "title": "2.18 Air Sampling Equipment",
+    "description": "24 questions in this module.",
+    "categories": [
+      "2.18 Air Sampling Equipment"
+    ],
+    "length": 20,
+    "shuffle": true,
+    "passPercent": 80
+  },
+  {
+    "slug": "site-2-19-counting-room-equipment",
+    "group": "Site Academics",
+    "title": "2.19 Counting Room Equipment",
+    "description": "3 questions in this module.",
+    "categories": [
+      "2.19 Counting Room Equipment"
+    ],
+    "length": 3,
+    "shuffle": true,
+    "passPercent": 80
+  }
+]

@@ -1,0 +1,33 @@
+---
+import { withBase } from '../lib/paths';
+
+const { pathname } = Astro.url;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const rel = pathname.replace(base, '') || '/';
+
+const links = [
+  { href: '/chapters', label: 'Chapters', match: (p: string) => p.startsWith('/chapters') },
+  { href: '/practice', label: 'Practice', match: (p: string) => p.startsWith('/practice') },
+  { href: '/progress', label: 'Progress', match: (p: string) => p.startsWith('/progress') },
+  { href: '/study-guides', label: 'Guides', match: (p: string) => p.startsWith('/study-guides') },
+  { href: '/about', label: 'About', match: (p: string) => p.startsWith('/about') },
+];
+---
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href={withBase('/')}>
+      <span class="mark" aria-hidden="true"><svg viewBox="-26 -26 52 52" width="22" height="22" fill="currentColor" focusable="false"><circle r="4" fill="currentColor"/><path d="M10.00 17.32A20 20 0 0 1 -10.00 17.32L-3.00 5.20A6 6 0 0 0 3.00 5.20ZM-20.00 0.00A20 20 0 0 1 -10.00 -17.32L-3.00 -5.20A6 6 0 0 0 -6.00 0.00ZM10.00 -17.32A20 20 0 0 1 20.00 -0.00L6.00 -0.00A6 6 0 0 0 3.00 -5.20Z" fill="currentColor"/></svg></span>
+      <span>Hanford RCT Recert Prep</span>
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      {
+        links.map((l) => (
+          <a href={withBase(l.href)} aria-current={l.match(rel) ? 'page' : undefined}>
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>

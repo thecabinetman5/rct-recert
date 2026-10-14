@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import { withBase } from '../lib/paths';
+import guides from '../data/study-guides.json';
+import fs from 'node:fs';
+import path from 'node:path';
+
+// Look up the real file size for each guide at build time, if the PDF exists.
+const pdfDir = path.resolve('public/pdfs');
+function sizeOf(file: string): string {
+  try {
+    const bytes = fs.statSync(path.join(pdfDir, file)).size;
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+    return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+  } catch {
+    return '—';
+  }
+}
+
+function fmtDate(d: string): string {
+  const dt = new Date(d + 'T12:00:00');
+  return Number.isNaN(dt.getTime()) ? d : dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+const rows = guides.map((g) => ({ ...g, size: sizeOf(g.file), exists: sizeOf(g.file) !== '—' }));
+const categories = [...new Set(rows.map((r) => r.category))];
+---
+
+<Base
+  title="Study Guides"
+  description="Downloadable PDF study guides for the Hanford RCT recertification exam."
+>
+  <h1>Study guides</h1>
+  <p class="lede">
+    Download, print, or read on your phone. Files are plain PDFs hosted directly
+    on this site.
+  </p>
+
+  {
+    categories.map((cat) => (
+      <section>
+        {categories.length > 1 && <h2>{cat}</h2>}
+        <ul class="guide-list">
+          {rows
+            .filter((r) => r.category === cat)
+            .map((r) => (
+              <li class="guide">
+                <div class="guide-main">
+                  <h3>{r.title}</h3>
+                  <p>{r.description}</p>
+                  <span class="meta">
+                    {r.pages ? `${r.pages} pages · ` : ''}
+                    {r.size !== '—' ? `${r.size} · ` : ''}
+                    PDF{r.updated ? ` · updated ${fmtDate(r.updated)}` : ''}
+                  </span>
+                </div>
+                {r.exists ? (
+                  <a class="btn" href={withBase(`/pdfs/${r.file}`)} download>
+                    Download PDF
+                  </a>
+                ) : (
+                  <span class="file-desc">not uploaded yet</span>
+                )}
+              </li>
+            ))}
+        </ul>
+      </section>
+    ))
+  }
+
+</Base>

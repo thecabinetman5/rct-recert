@@ -1,0 +1,43 @@
+---
+import '../styles/global.css';
+import 'katex/dist/katex.min.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const fullTitle =
+  title === 'Hanford RCT Recert Prep'
+    ? title
+    : `${title} &middot; Hanford RCT Recert Prep`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href={import.meta.env.BASE_URL + 'favicon.svg'} type="image/svg+xml" />
+    <title set:html={fullTitle} />
+    {description && <meta name="description" content={description} />}
+    <meta name="robots" content="index,follow" />
+    <meta name="site-base" content={import.meta.env.BASE_URL} />
+  </head>
+  <body>
+    <a class="visually-hidden" href="#main">Skip to content</a>
+    <SiteHeader />
+    <main id="main">
+      <div class="container">
+        <slot />
+      </div>
+    </main>
+    <SiteFooter />
+    <script>
+      import '../scripts/progress-badges';
+    </script>
+  </body>
+</html>
